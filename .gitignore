@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv
+.DS_Store
+
+# Byte-compiled / cache
+*.pyc
+*.pyo
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
