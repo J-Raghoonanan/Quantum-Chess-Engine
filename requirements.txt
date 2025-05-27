@@ -1,0 +1,4 @@
+qiskit>=0.45.0
+python-chess>=1.999
+pygame>=2.1
+matplotlib
