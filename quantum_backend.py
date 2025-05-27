@@ -1,4 +1,5 @@
-from qiskit import QuantumCircuit, Aer, transpile, execute
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer
 import numpy as np
 
 def run_grover_search(moves, marked_indices):
@@ -33,7 +34,10 @@ def run_grover_search(moves, marked_indices):
 
     qc.measure_all()
     simulator = Aer.get_backend("aer_simulator")
-    result = execute(transpile(qc, simulator), backend=simulator, shots=1024).result()
+    transpiled_qc = transpile(qc,simulator)
+    backend = simulator
+    job = backend.run(transpiled_qc, shots=1024)
+    result = job.result()
     counts = result.get_counts()
     top = max(counts, key=counts.get)
     selected_index = int(top, 2)
