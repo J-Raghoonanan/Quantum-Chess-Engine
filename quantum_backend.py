@@ -35,8 +35,8 @@ def run_grover_search(moves, marked_indices):
     qc.measure_all()
     simulator = Aer.get_backend("aer_simulator")
     transpiled_qc = transpile(qc,simulator)
-    backend = simulator
-    job = backend.run(transpiled_qc, shots=1024)
+    # backend = simulator
+    job = simulator.run(transpiled_qc, shots=1024)
     result = job.result()
     counts = result.get_counts()
     top = max(counts, key=counts.get)
