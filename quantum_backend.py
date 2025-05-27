@@ -2,6 +2,15 @@ from qiskit import QuantumCircuit, transpile
 from qiskit_aer import Aer
 import numpy as np
 
+
+def run_circuit(qc, shots=1024):
+    qc.measure_all()
+    backend = Aer.get_backend("aer_simulator")
+    transpiled_qc = transpile(qc, backend)
+    job = backend.run(transpiled, shots=shots)
+    return job.result().get_counts()
+
+
 def run_grover_search(moves, marked_indices):
     n = int(np.ceil(np.log2(len(moves))))
     N = 2**n
@@ -32,13 +41,7 @@ def run_grover_search(moves, marked_indices):
         qc.x(range(n))
         qc.h(range(n))
 
-    qc.measure_all()
-    simulator = Aer.get_backend("aer_simulator")
-    transpiled_qc = transpile(qc,simulator)
-    # backend = simulator
-    job = simulator.run(transpiled_qc, shots=1024)
-    result = job.result()
-    counts = result.get_counts()
+    counts = run_circuit(qc)
     top = max(counts, key=counts.get)
     selected_index = int(top, 2)
     return moves[selected_index % len(moves)]
