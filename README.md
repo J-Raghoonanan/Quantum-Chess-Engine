@@ -10,6 +10,13 @@ This is the *beginning of* a full-stack, hybrid classical-quantum chess engine i
 - Classical logic and evaluation integrated with quantum backend
 - Modular architecture, designed for research and industry applications
 
+## ♟️ Assets & Licensing
+
+This project uses chess piece images from the [Lichess GitHub project (lila)](https://github.com/lichess-org/lila), which is licensed under the GNU Affero General Public License v3.0.
+
+The original assets are © lichess.org, used in accordance with the [AGPLv3 license](https://www.gnu.org/licenses/agpl-3.0.html).
+
+
 ## Getting Started
 
 ### Clone the repository
