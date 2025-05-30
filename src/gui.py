@@ -19,7 +19,7 @@ class ChessGUI:
 
     def load_images(self):
         pieces = ['wP','wR','wN','wB','wQ','wK','bP','bR','bN','bB','bQ','bK']
-        return {p: pygame.transform.scale(pygame.image.load(f"assets/{p}.png"), (SQ_SIZE, SQ_SIZE)) for p in pieces}
+        return {p: pygame.transform.scale(pygame.image.load(f"../assets/{p}.png"), (SQ_SIZE, SQ_SIZE)) for p in pieces}
 
     def draw_board(self):
         colors = [pygame.Color("white"), pygame.Color("gray")]
