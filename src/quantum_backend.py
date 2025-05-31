@@ -63,6 +63,8 @@ def run_grover_search(board, moves, shots=1024):
     Runs Grover's algorithm to select the best move based on depth-2 evaluation.
     '''
 
+    # Adaptive thresholding
+    # Choose moves that have values > half a std. dev above the mean
     scores = [evaluate_depth_2(board, m) for m in moves]
     mu, sigma = np.mean(scores), np.std(scores)
     theta = mu + 0.5 * sigma
