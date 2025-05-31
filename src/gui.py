@@ -16,6 +16,7 @@ class ChessGUI:
         self.board = chess.Board()
         self.engine = QuantumChessEngine()
         self.selected_square = None
+        return
 
     def load_images(self):
         pieces = ['wP','wR','wN','wB','wQ','wK','bP','bR','bN','bB','bQ','bK']
@@ -27,6 +28,7 @@ class ChessGUI:
             for c in range(8):
                 color = colors[(r + c) % 2]
                 pygame.draw.rect(self.screen, color, pygame.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+        return
 
     def draw_pieces(self):
         for square in chess.SQUARES:
@@ -36,6 +38,7 @@ class ChessGUI:
                 row = 7 - chess.square_rank(square)
                 piece_code = ('w' if piece.color == chess.WHITE else 'b') + piece.symbol().upper()
                 self.screen.blit(self.images[piece_code], pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+        return
 
     def run(self):
         running = True
@@ -64,3 +67,4 @@ class ChessGUI:
             self.clock.tick(FPS)
             pygame.display.flip()
         pygame.quit()
+        return

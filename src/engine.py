@@ -5,6 +5,7 @@ from quantum_backend import run_grover_search
 class QuantumChessEngine:
     def __init__(self, threshold=0.6):
         self.threshold = threshold
+        return
 
     def evaluate(self, board, move):
         return np.random.rand()  # placeholder for fast classical eval

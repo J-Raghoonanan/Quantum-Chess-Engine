@@ -7,7 +7,7 @@ def run_circuit(qc, shots=1024):
     qc.measure_all()
     backend = Aer.get_backend("aer_simulator")
     transpiled_qc = transpile(qc, backend)
-    job = backend.run(transpiled, shots=shots)
+    job = backend.run(transpiled_qc, shots=shots)
     return job.result().get_counts()
 
 
