@@ -63,6 +63,11 @@ def run_grover_search(board, moves, shots=1024):
     Runs Grover's algorithm to select the best move based on depth-2 evaluation.
     '''
 
+    if len(moves) == 0:
+        return None  # no move possible
+    if len(moves) == 1:
+        return moves[0]  # only one legal move, no need for Grover
+    
     # Adaptive thresholding
     # Choose moves that have values > half a std. dev above the mean
     scores = [evaluate_depth_2(board, m) for m in moves]
@@ -88,9 +93,18 @@ def run_grover_search(board, moves, shots=1024):
             for i, bit in enumerate(reversed(bits)):
                 if bit == "0":
                     qc.x(i)
-            qc.h(n - 1)
-            qc.mcx(list(range(n - 1)), n - 1)
-            qc.h(n - 1)
+
+            if n > 1:
+                qc.h(n - 1)
+                qc.mcx(list(range(n - 1)), n - 1)
+                qc.h(n - 1)
+            else:
+                qc.z(0)  # single-qubit phase flip fallback
+            # qc.h(n - 1)
+            # qc.mcx(list(range(n - 1)), n - 1)
+            # qc.h(n - 1)
+
+
             for i, bit in enumerate(reversed(bits)):
                 if bit == "0":
                     qc.x(i)
@@ -99,9 +113,17 @@ def run_grover_search(board, moves, shots=1024):
         # Diffusion operator
         qc.h(range(n))
         qc.x(range(n))
-        qc.h(n - 1)
-        qc.mcx(list(range(n - 1)), n - 1)
-        qc.h(n - 1)
+
+        if n > 1:
+            qc.h(n - 1)
+            qc.mcx(list(range(n - 1)), n - 1)
+            qc.h(n - 1)
+        else:
+            qc.z(0)  # single-qubit phase flip fallback
+        # qc.h(n - 1)
+        # qc.mcx(list(range(n - 1)), n - 1)
+        # qc.h(n - 1)
+
         qc.x(range(n))
         qc.h(range(n))
 
@@ -111,6 +133,9 @@ def run_grover_search(board, moves, shots=1024):
     index = int(most_common, 2) % len(moves)
     return moves[index]
 
+
+
+############################################################################
 # def run_grover_search(moves, marked_indices):
 #     n = int(np.ceil(np.log2(len(moves))))
 #     N = 2**n

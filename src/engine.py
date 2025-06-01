@@ -8,8 +8,9 @@ class QuantumChessEngine:
 
     def select_quantum_move(self, board):
         legal_moves = list(board.legal_moves)
+        # print("Legal moves:", legal_moves)
         if not legal_moves:
-            return None
+            return None # no legal moves, avoid running Grover
         return run_grover_search(board, legal_moves)
     
 

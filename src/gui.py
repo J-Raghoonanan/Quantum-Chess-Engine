@@ -124,6 +124,8 @@ class ChessGUI:
                                 qm = self.engine.select_quantum_move(self.board)
                                 if qm:
                                     self.board.push(qm)
+                                else:
+                                    self.game_over = True  # no legal move, game must be over
                         self.selected_square = None
 
             self.draw_board()
