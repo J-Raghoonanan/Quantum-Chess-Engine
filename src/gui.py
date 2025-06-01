@@ -58,9 +58,8 @@ class ChessGUI:
         font = pygame.font.SysFont(None, 32)
         white_rect = pygame.Rect(WIDTH//4 - 60, HEIGHT//2 - 25, 120, 50)
         black_rect = pygame.Rect(3*WIDTH//4 - 60, HEIGHT//2 - 25, 120, 50)
-        asking = True
 
-        while asking:
+        while True:
             self.screen.fill((30, 30, 30))
             txt = font.render("Choose your color:", True, pygame.Color("white"))
             self.screen.blit(txt, (WIDTH//2 - txt.get_width()//2, HEIGHT//4))
@@ -157,6 +156,8 @@ class ChessGUI:
                         self.selected_square = square
                     else:
                         move = chess.Move(self.selected_square, square)
+
+                        # Handle promotion
                         if (self.board.piece_at(self.selected_square) and
                             self.board.piece_at(self.selected_square).piece_type == chess.PAWN and
                             chess.square_rank(square) in [0, 7]):
