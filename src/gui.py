@@ -94,6 +94,45 @@ class ChessGUI:
                     elif black_rect.collidepoint(event.pos):
                         return False
         return
+    
+
+    def prompt_promotion_choice(self):
+        pygame.event.clear()  # 🔁 Flush pending events to avoid auto-dismissal
+        font = pygame.font.SysFont(None, 28)
+        options = [(chess.QUEEN, "Queen"), (chess.ROOK, "Rook"), (chess.BISHOP, "Bishop"), (chess.KNIGHT, "Knight")]
+        buttons = []
+        box = pygame.Rect(WIDTH//2 - 150, HEIGHT//2 - 75, 300, 150)
+
+        for i, (_, label) in enumerate(options):
+            rect = pygame.Rect(box.left + 10 + i * 70, box.centery - 20, 60, 40)
+            buttons.append((rect, label))
+
+        while True:
+            self.draw_board()
+            self.draw_pieces()
+            pygame.draw.rect(self.screen, pygame.Color("black"), box)
+            pygame.draw.rect(self.screen, pygame.Color("white"), box, 2)
+
+            txt = font.render("Choose promotion:", True, pygame.Color("white"))
+            self.screen.blit(txt, (box.centerx - txt.get_width() // 2, box.top + 10))
+
+            for i, (rect, label) in enumerate(buttons):
+                pygame.draw.rect(self.screen, pygame.Color("gray"), rect)
+                label_surface = font.render(label, True, pygame.Color("black"))
+                self.screen.blit(label_surface, (rect.centerx - label_surface.get_width()//2, rect.centery - label_surface.get_height()//2))
+
+            pygame.display.flip()
+            self.clock.tick(FPS)
+
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif e.type == pygame.MOUSEBUTTONDOWN:
+                    for i, (rect, _) in enumerate(buttons):
+                        if rect.collidepoint(e.pos):
+                            return options[i][0]
+            return
 
     def run(self):
         running = True
@@ -118,14 +157,18 @@ class ChessGUI:
                         self.selected_square = square
                     else:
                         move = chess.Move(self.selected_square, square)
+                        if (self.board.piece_at(self.selected_square) and
+                            self.board.piece_at(self.selected_square).piece_type == chess.PAWN and
+                            chess.square_rank(square) in [0, 7]):
+                            promo_piece = self.prompt_promotion_choice()
+                            move = chess.Move(self.selected_square, square, promotion=promo_piece)
+
                         if move in self.board.legal_moves:
                             self.board.push(move)
                             if not self.board.is_game_over():
-                                qm = self.engine.select_quantum_move(self.board)
-                                if qm:
-                                    self.board.push(qm)
-                                else:
-                                    self.game_over = True  # no legal move, game must be over
+                                ai_move = self.engine.select_quantum_move(self.board)
+                                if ai_move:
+                                    self.board.push(ai_move)
                         self.selected_square = None
 
             self.draw_board()
@@ -141,6 +184,7 @@ class ChessGUI:
 
             self.clock.tick(FPS)
             pygame.display.flip()
+
         pygame.quit()
         return
     
