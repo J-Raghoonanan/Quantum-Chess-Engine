@@ -1,17 +1,21 @@
 import chess
 import numpy as np
-from quantum_backend import run_grover_search
+from quantum_backend import select_best_quantum_move
 
 class QuantumChessEngine:
     def __init__(self):
         pass  # threshold no longer needed here
 
     def select_quantum_move(self, board):
-        legal_moves = list(board.legal_moves)
-        # print("Legal moves:", legal_moves)
-        if not legal_moves:
-            return None # no legal moves, avoid running Grover
-        return run_grover_search(board, legal_moves)
+        return select_best_quantum_move(board, depth=2)
+
+        
+    # def select_quantum_move(self, board):
+    #     legal_moves = list(board.legal_moves)
+    #     # print("Legal moves:", legal_moves)
+    #     if not legal_moves:
+    #         return None # no legal moves, avoid running Grover
+    #     return run_grover_search(board, legal_moves)
     
 
     # def __init__(self, threshold=0.6):
