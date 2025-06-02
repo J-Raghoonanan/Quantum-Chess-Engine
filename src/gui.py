@@ -159,7 +159,7 @@ class ChessGUI:
 
                         # Handle promotion
                         if (self.board.piece_at(self.selected_square) and
-                            self.board.piece_at(self.selected_square).piece_type == chess.PAWN and
+                            self.board.piece_at(self.selected_square).piece_type == chess.PAWN and # type: ignore
                             chess.square_rank(square) in [0, 7]):
                             promo_piece = self.prompt_promotion_choice()
                             move = chess.Move(self.selected_square, square, promotion=promo_piece)
