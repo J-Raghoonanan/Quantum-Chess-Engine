@@ -2,6 +2,7 @@ from qiskit import QuantumCircuit, transpile
 from qiskit_aer import Aer 
 import numpy as np
 import chess
+import math
 from classical_evaluation import evaluate_position
 
 
@@ -57,7 +58,7 @@ def quantum_minimax(board: chess.Board, depth: int) -> tuple[int, chess.Move]:
 
     N = 2 ** int(np.ceil(np.log2(len(legal_moves))))
     n = int(np.log2(N))
-    R = max(1, int(np.floor(np.pi / 4 * np.sqrt(N / len(marked_indices)))))
+    R = max(1, int(math.ceil(np.pi / 4 * np.sqrt(N / len(marked_indices)))))
 
     qc = QuantumCircuit(n)
     qc.h(range(n))
