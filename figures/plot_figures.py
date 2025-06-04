@@ -1,7 +1,7 @@
 from qiskit import QuantumCircuit
 import matplotlib.pyplot as plt
 
-def grover_example_circuit(n:int =3) -> QuantumCircuit:
+def grover_example_circuit(n:int =5) -> QuantumCircuit:
     qc = QuantumCircuit(n)
     qc.h(range(n))
     # One iteration of Grover (oracle + diffuser) — placeholder
@@ -20,7 +20,7 @@ def create_figure_1():
     qc = grover_example_circuit()
     qc.draw("mpl")
     plt.tight_layout()
-    plt.savefig("fig1_grover_circuit.png", dpi=300)
+    plt.savefig("fig1_grover_circuit.pdf", dpi=300)
     return
 
 def create_figure_2():
@@ -35,7 +35,7 @@ def create_figure_2():
     plt.title('FIG. 2: Circuit Depth vs Chess Advantage')
     plt.legend()
     plt.grid(True)
-    plt.savefig('fig2_advantage_vs_depth.png', dpi=300)
+    plt.savefig('fig2_advantage_vs_depth.pdf', dpi=300)
     return
 
 def create_figure_3():
@@ -50,12 +50,12 @@ def create_figure_3():
     plt.title('FIG. 3: Time vs Search Depth')
     plt.legend()
     plt.grid(True)
-    plt.savefig('fig3_time_vs_depth.png', dpi=300)
+    plt.savefig('fig3_time_vs_depth.pdf', dpi=300)
     return
 
 
 if __name__== "__main__":
     create_figure_1()
-    create_figure_2()
-    create_figure_3()
+    # create_figure_2()
+    # create_figure_3()
     
