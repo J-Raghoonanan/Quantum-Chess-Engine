@@ -17,14 +17,14 @@ def grover_example_circuit(n:int =5) -> QuantumCircuit:
     qc.measure_all()
     return qc
 
-def create_figure_1():
+def create_circuit_fig():
     qc = grover_example_circuit()
     qc.draw("mpl")
     plt.tight_layout()
     plt.savefig("fig_grover_circuit.pdf", dpi=300)
     return
 
-def create_figure_2():
+def create_depth_adv_fig():
     circuit_depths = [0, 0, 0, 0]
     grover_scores = [0, 0, 0, 0]     #  output from Grover engine
     stockfish_scores = [0, 0, 0, 0]  # Same positions, using Stockfish
@@ -39,7 +39,7 @@ def create_figure_2():
     plt.savefig('fig_advantage_vs_depth.pdf', dpi=300)
     return
 
-def create_figure_3():
+def create_time_depth_fig():
     depths = [1, 2, 3, 4]
     grover_times = [0.0 ,0.0, 0.0, 0.0]
     stockfish_times = [0.0 ,0.0, 0.0, 0.0]
@@ -54,7 +54,7 @@ def create_figure_3():
     plt.savefig('fig_time_vs_depth.pdf', dpi=300)
     return
 
-def create_figure_4():
+def create_cqSearch_fig():
     depths = np.arange(1, 11)
     B_values = [20, 30, 35, 40]
     colors = ['tab:blue', 'tab:green', 'tab:orange', 'tab:red']
@@ -76,8 +76,8 @@ def create_figure_4():
 
 
 if __name__== "__main__":
-    create_figure_1()
-    # create_figure_2()
-    # create_figure_3()
-    create_figure_4()
+    create_circuit_fig()
+    # create_depth_adv_fig()
+    # create_time_depth_fig()
+    create_cqSearch_fig()
     
