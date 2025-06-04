@@ -72,7 +72,7 @@ def create_figure_4():
     plt.title("Classical vs Grover Search Scaling")
     plt.legend()
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-    plt.savefig("fig_grover_vs_classical_scaling.png", dpi=300)
+    plt.savefig("fig_grover_vs_classical_scaling.pdf", dpi=300)
 
 
 if __name__== "__main__":
