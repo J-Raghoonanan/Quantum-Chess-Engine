@@ -1,5 +1,6 @@
 from qiskit import QuantumCircuit
 import matplotlib.pyplot as plt
+import numpy as np
 
 def grover_example_circuit(n:int =5) -> QuantumCircuit:
     qc = QuantumCircuit(n)
@@ -20,7 +21,7 @@ def create_figure_1():
     qc = grover_example_circuit()
     qc.draw("mpl")
     plt.tight_layout()
-    plt.savefig("fig1_grover_circuit.pdf", dpi=300)
+    plt.savefig("fig_grover_circuit.pdf", dpi=300)
     return
 
 def create_figure_2():
@@ -32,10 +33,10 @@ def create_figure_2():
     plt.plot(circuit_depths, stockfish_scores, label='Stockfish', marker='s')
     plt.xlabel('Grover Iterations (Circuit Depth)')
     plt.ylabel('Chess Advantage Score')
-    plt.title('FIG. 2: Circuit Depth vs Chess Advantage')
+    plt.title('Circuit Depth vs Chess Advantage')
     plt.legend()
     plt.grid(True)
-    plt.savefig('fig2_advantage_vs_depth.pdf', dpi=300)
+    plt.savefig('fig_advantage_vs_depth.pdf', dpi=300)
     return
 
 def create_figure_3():
@@ -47,15 +48,36 @@ def create_figure_3():
     plt.plot(stockfish_times, depths, label='Stockfish', marker='s')
     plt.xlabel('Time (seconds)')
     plt.ylabel('Search Depth')
-    plt.title('FIG. 3: Time vs Search Depth')
+    plt.title('Time vs Search Depth')
     plt.legend()
     plt.grid(True)
-    plt.savefig('fig3_time_vs_depth.pdf', dpi=300)
+    plt.savefig('fig_time_vs_depth.pdf', dpi=300)
     return
+
+def create_figure_4():
+    depths = np.arange(1, 11)
+    B_values = [20, 30, 35, 40]
+    colors = ['tab:blue', 'tab:green', 'tab:orange', 'tab:red']
+
+    plt.figure()
+    for B, color in zip(B_values, colors):
+        classical = B ** depths
+        quantum = B ** (depths / 2)
+        plt.plot(depths, classical, label=f"Classical B={B}", linestyle='--', color=color)
+        plt.plot(depths, quantum, label=f"Grover B={B}", linestyle='-', color=color)
+
+    plt.yscale("log")
+    plt.xlabel("Search Depth (d)")
+    plt.ylabel("Nodes Needed to Explore")
+    plt.title("Classical vs Grover Search Scaling")
+    plt.legend()
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.savefig("fig_grover_vs_classical_scaling.png", dpi=300)
 
 
 if __name__== "__main__":
     create_figure_1()
     # create_figure_2()
     # create_figure_3()
+    create_figure_4()
     
