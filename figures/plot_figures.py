@@ -16,17 +16,14 @@ def grover_example_circuit(n:int =3) -> QuantumCircuit:
     qc.measure_all()
     return qc
 
-
-if __name__== "__main__":
-
-    # Figure 1
+def create_figure_1():
     qc = grover_example_circuit()
     qc.draw("mpl")
     plt.tight_layout()
     plt.savefig("fig1_grover_circuit.png", dpi=300)
+    return
 
-
-    # Figure 2
+def create_figure_2():
     circuit_depths = [0, 0, 0, 0]
     grover_scores = [0, 0, 0, 0]     #  output from Grover engine
     stockfish_scores = [0, 0, 0, 0]  # Same positions, using Stockfish
@@ -39,8 +36,9 @@ if __name__== "__main__":
     plt.legend()
     plt.grid(True)
     plt.savefig('fig2_advantage_vs_depth.png', dpi=300)
+    return
 
-    #Figure 3
+def create_figure_3():
     depths = [1, 2, 3, 4]
     grover_times = [0.0 ,0.0, 0.0, 0.0]
     stockfish_times = [0.0 ,0.0, 0.0, 0.0]
@@ -53,3 +51,11 @@ if __name__== "__main__":
     plt.legend()
     plt.grid(True)
     plt.savefig('fig3_time_vs_depth.png', dpi=300)
+    return
+
+
+if __name__== "__main__":
+    create_figure_1()
+    create_figure_2()
+    create_figure_3()
+    
