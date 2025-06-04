@@ -65,3 +65,43 @@ def test_grover_circuit_marked_state():
     Takes the first group in case multiple bitstrings are returned (which can happen with classical + quantum registers)
     '''
     return
+
+def test_grover_multiple_marked():
+    n = 3  # 3 qubits → 8 states
+    marked_indices = [2, 5]  # multiple marked states
+    qc = QuantumCircuit(n, n)
+    qc.h(range(n))
+
+    for idx in marked_indices:
+        bits = format(idx, f"0{n}b")
+        for i, bit in enumerate(reversed(bits)):
+            if bit == "0":
+                qc.x(i)
+        qc.h(n - 1)
+        qc.mcx(list(range(n - 1)), n - 1)
+        qc.h(n - 1)
+        for i, bit in enumerate(reversed(bits)):
+            if bit == "0":
+                qc.x(i)
+        qc.barrier()
+
+    qc.h(range(n))
+    qc.x(range(n))
+    qc.h(n - 1)
+    qc.mcx(list(range(n - 1)), n - 1)
+    qc.h(n - 1)
+    qc.x(range(n))
+    qc.h(range(n))
+
+    qc.measure_all()
+    backend = Aer.get_backend("aer_simulator")
+    transpiled_qc = transpile(qc, backend)
+    job = backend.run(transpiled_qc, shots=1024)  # type: ignore
+    result = job.result()
+    counts = result.get_counts()
+
+    sorted_counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
+    print("Top measured states:", sorted_counts[:3])
+    top_state = sorted_counts[0][0]
+    assert top_state.strip().split()[0] in [format(i, "03b") for i in marked_indices], "Grover's algorithm did not amplify a marked state sufficiently"
+    return
